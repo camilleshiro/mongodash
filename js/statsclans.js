@@ -1,12 +1,51 @@
 
 class statsClans {
-	
+	// Donne le nombre de fois que chaque clan a été joué en 2V2 ou 
 	clansPlayed(){
 		var obj = new mongoQuery();
 		
 		var queryResult = obj.getPlayedGamesByClan();
+		var statData = [];
+		var statX = [];
+		for (var key in queryResult){
+			statData.push({name : queryResult[key].clan, y : queryResult[key].count})		
+			statX.push(queryResult[key].clan);
+		}
+		console.log(statData);
+		var myChart = Highcharts.chart('clans-played', {
+			chart: {
+				type: 'column'
+			},
+			title: {
+				text: 'Games by clan'
+			},
+			plotOptions: {
+				column: {
+					allowPointSelect: true,
+					cursor: 'pointer',
+					animation: {duration : 300},
+					dataLabels: {
+						enabled: true,						
+						style: {
+							color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+						}
+					}
+				}
+			},
+			xAxis: {
+				categories: statX,
+			},
+			series: [{
+				
+				colorByPoint: true,
+				data: statData
+			}]
+		});
+		
+
 	}
 	
+	// donne le pourcentage de victoire VS défaites, par clan.
 	clansWin(){
 		var myChart = Highcharts.chart('clans-win', {
 			chart: {

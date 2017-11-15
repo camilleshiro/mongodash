@@ -1,0 +1,26 @@
+#loader, #loader #blackscreen, #loader #loaderimg, #loader #backloaderimg {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+}
+
+#loader {
+    z-index: 9999;
+    display : none;
+}
+
+#loader #blackscreen{   
+    background-color :  #000;
+    opacity: 0.5;
+}
+
+#loader #loaderimg{   
+    background: url('../img/loaderb.gif') 50% 50% no-repeaT;
+}
+
+#loader #backloaderimg{ 
+    background: url('../img/backloader.png') 50% 53% no-repeaT;
+    
+}

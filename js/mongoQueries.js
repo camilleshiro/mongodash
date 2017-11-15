@@ -39,7 +39,7 @@ class mongoQuery {
 			"count" : 869.0
 		}]
 		
-	console.log(returnArray);
+	
 		
 		
 	return(returnArray);

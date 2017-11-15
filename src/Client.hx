@@ -12,10 +12,10 @@ class Client {
     public function new() {
         J("#main").html("Loading...");
         initAdmin();
-        mongoFind("tasks",{},function(arr) {
+        /*mongoFind("tasks",{},function(arr) {
             tasks = cast arr;
             refresh();
-        });
+        });*/
     }
 
     function initAdmin() {

@@ -7,11 +7,8 @@ $(document).ready(function(){
 	
 	$(".nav-link").on('click', function(){
 		displayMenu($(this).attr("id"));
-	});
-	
-	
+	});	
 });
-
 
 function activateMenu(e){
 	
@@ -23,24 +20,69 @@ function goHome(){
 	$("#main").html("");
 	$(".nav-link").removeClass("active");
 	$("#menu-home").addClass("active");
+
+
+
+
 }
 
 function displayMenu(menuId){
 	activateMenu(menuId);
 	switch(menuId) {		
-		case "menu-statclan" :			
-			var htmlString =   '<div class="row"><div class="col-md-6"><div id="clans-win" style="width:100%; height:400px;"></div></div><div class="col-md-6"><div id="clans-winrate-bymonth" style="width:100%; height:400px;"></div></div></div>'
-			$('#main').html(htmlString);		
-			var stat = new statsClans();
-			stat.clansWin();		
+		case "menu-statclan" :	
+			showLoader();
+			setTimeout(function(){
+				
+				var htmlString =   '<div class="row"><div class="col-md-6"><div id="clans-win" style="width:100%; height:400px;"></div></div><div class="col-md-6"><div id="clans-played" style="width:100%; height:400px;"></div></div></div>';
+				
+
+				$('#main').html(htmlString);		
+				var stat = new statsClans();
+				stat.clansWin();		
+				stat.clansPlayed();
+				hideLoader();
+			}, 2000);		
+			
 			
 			break;
+
 		case "menu-autrestat" :
-			
-			var stat = new statsClans();
-			
-			stat.clansPlayed();
-			$("#main").html("");
+
+		// ### PB Authetincate
+			var machainemongo = [
+				{$match:{
+					version:{$regex:"0\.3."},
+					kind:"end",
+					time: { $gt : 20 },
+					playerCount : { $gt : 2 },
+					$and: [ 
+						{ mode:{$regex:"Team"}},
+						{ mode : {$regex:"^((?!2V2V2).)*$" } },
+					],
+					allowedVictories:127,
+					
+				}},
+				{$group:
+					{ _id : { clan : "$clan" },
+					count:{$sum:1}
+					}
+				},
+				{$project:{
+					clan:"$_id.clan", 
+					count:"$count",
+					_id:0
+				}}    
+			];
+		
+			showLoader();
+			$.ajax({
+				url: "/aggregate",
+				data: {args: JSON.stringify({collection:"log",pipeline:machainemongo})},
+
+			}).done(function(data) {
+				hideLoader();
+				console.info(data);
+			});
 			break;
 			
 		default :
@@ -62,3 +104,12 @@ function createMenu(){
 		
 	}
 }
+
+function showLoader(){
+	$('#loader').show();
+}
+
+function hideLoader(){
+	$('#loader').hide();
+}
+

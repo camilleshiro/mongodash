@@ -1,4 +1,4 @@
--js taskman.js
+-js mongodash.js
 -cp src
 -main Main
 -lib hxnodejs
