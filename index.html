@@ -2,10 +2,15 @@
 
 <html>
 <head>		
-	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-	<link rel="stylesheet" type="text/css" href="/css/mongodash.css">
-	<ul class="nav nav-tabs" id="main-menu">
-	</ul>	
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/mongodash.css">
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.css">
+	<link rel="stylesheet" type="text/css" href="ext-lib/datatables/datatables.min.css"/>
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.bootstrap.min.css"/>
+	
+	
+  
 </head>
 
 
@@ -13,26 +18,50 @@
 
 
 <body>
-	<div id="loader">
-		<div id="blackscreen"></div>
-		<div id="backloaderimg"></div>
-		<div id="loaderimg"></div>
+		<div id="cachetout"></div>
+	<div id="header">
+		<ul class="nav nav-tabs" id="main-menu">
+		</ul>	
+	
+		<ul class="nav nav-pills submenu" id="byclan-submenu" style="display : none;">		
+		</ul>
+	</div>
+	<div id="main-loader">
+		<div class="loader">
+			<div class="blackscreen"></div>
+			<div class="backloaderimg"></div>
+			<div class="loaderimg"></div>
+		</div>
+	
+	</div>
+
+	
+    <div id="main">
+		
 
 	</div>
-	<button data-target='#labelsAdmin'>test</button>
-    <div id="main"></div>
     
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-	
+	<script src="js/bootstrap.min.js"></script>
+	<!-- Latest compiled and minified JavaScript -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+
+<!-- Latest compiled and minified Locales -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
 
     <script type="text/javascript">function require() { return {}; }</script>
 	<script src="https://code.highcharts.com/highcharts.js"></script>
-	
+	<script type="text/javascript" src="js/constants.js"></script>
     <script type="text/javascript" src="js/nav.js"></script>
 	<script type="text/javascript" src="js/statsclans.js"></script>
+	<script type="text/javascript" src="js/statgame.js"></script>
+	<script type="text/javascript" src="js/statstech.js"></script>
 	<script type="text/javascript" src="js/mongoQueries.js"></script>
+	<script type="text/javascript" src="js/statpage.js"></script>
+	<script type="text/javascript" src="js/errorpage.js"></script>
+	<script type="text/javascript" src="js/stattohtml.js"></script>
+	<script type="text/javascript" src="ext-lib/datatables/datatables.min.js"></script>
 
 	
 	

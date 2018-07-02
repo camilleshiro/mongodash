@@ -1,25 +1,57 @@
 
 class statsClans {
+	
+	
 	// Donne le nombre de fois que chaque clan a été joué en 2V2 ou 
-	clansPlayed(){
-		var obj = new mongoQuery();
-		
-		var queryResult = obj.getPlayedGamesByClan();
+	clansPlayed(queryResult){
 		var statData = [];
+		var tempArray = [];
 		var statX = [];
-		for (var key in queryResult){
-			statData.push({name : queryResult[key].clan, y : queryResult[key].count})		
-			statX.push(queryResult[key].clan);
+		var dataClans = [];
+			
+		for (var key in queryResult){	
+			if (tempArray[queryResult[key].version] == undefined)
+				tempArray[queryResult[key].version] = [];			
+			tempArray[queryResult[key].version][queryResult[key].clan] = queryResult[key].count;			
 		}
-		console.log(statData);
+		
+		for(var k in _CLANS){		
+			dataClans[_CLANS[k]] = [];
+		}
+		
+		for (var kversion in tempArray){
+			statX.push(kversion); 
+			for(var kclan in dataClans){
+				if(tempArray[kversion][kclan] == undefined){					
+					dataClans[kclan].push(0);
+				}else{
+					dataClans[kclan].push(tempArray[kversion][kclan]);
+				}
+			}		
+		}	
+		
+		for (var kclan in dataClans){			
+			statData.push(
+				{
+					name : kclan,
+					data : dataClans[kclan]
+				})			
+		}
+
 		var myChart = Highcharts.chart('clans-played', {
-			chart: {
-				type: 'column'
+			chart : {
+			type : 'column'
 			},
 			title: {
-				text: 'Games by clan'
+				text: 'Games by Clan'
 			},
-			plotOptions: {
+			plotOptions: {				
+				line: {
+						dataLabels: {
+							enabled: true
+						},
+						
+				},
 				column: {
 					allowPointSelect: true,
 					cursor: 'pointer',
@@ -35,107 +67,111 @@ class statsClans {
 			xAxis: {
 				categories: statX,
 			},
-			series: [{
-				
-				colorByPoint: true,
-				data: statData
-			}]
+			series: statData
+			
 		});
+
+		
+	}
 		
 
-	}
 	
-	// donne le pourcentage de victoire VS défaites, par clan.
-	clansWin(){
-		var myChart = Highcharts.chart('clans-win', {
-			chart: {
-				type: 'pie'
+
+	clansWinRate(queryResult){
+		
+		var statData = [];
+		var tempArray = [];
+		var statX = [];
+		console.info(queryResult);
+		//var nbParties = count(queryResult);
+
+		for (var key in queryResult){
+			//magnifique construction d'un tableau permettant de calculer les % de win ....
+			if (tempArray[queryResult[key].version] == undefined)
+				tempArray[queryResult[key].version] = [];
+			if (tempArray[queryResult[key].version][queryResult[key].clan] == undefined)
+				tempArray[queryResult[key].version][queryResult[key].clan] = []
+			tempArray[queryResult[key].version][queryResult[key].clan][queryResult[key].win] = queryResult[key].count;			
+		}
+		
+		var dataClans = [];
+		for(var k in _CLANS){		
+			dataClans[_CLANS[k]] = [];
+		}
+
+		for (var kversion in tempArray){
+			statX.push(kversion); 
+			for(var kclan in dataClans ){
+				if(tempArray[kversion][kclan] == undefined){					
+					percent = 0;
+				}else{
+					for (var kwin in tempArray[kversion][kclan] ){
+						if(kwin == "true"){
+							var win = tempArray[kversion][kclan][kwin];
+						}else{
+							var loose = tempArray[kversion][kclan][kwin];
+						}
+					}
+					
+					var percent = Math.round((100 * parseInt(win) / (parseInt(win)+parseInt(loose))));	
+				}
+				
+				
+				if(dataClans[kclan] == undefined)
+					dataClans[kclan] = [];
+				dataClans[kclan].push(percent);
+			}
+			
+			
+		}
+
+		
+	
+	for (var kclan in dataClans){
+		
+		statData.push(
+			{
+				name : kclan,
+				data : dataClans[kclan]
+			})
+		
+	}
+
+
+		var myChart = Highcharts.chart('clans-winrate', {
+			chart : {
+			type : 'column'
 			},
 			title: {
-				text: 'Victories by clan'
+				text: 'Clan winrate by Major version'
 			},
-			plotOptions: {
-				pie: {
+			plotOptions: {				
+				line: {
+						dataLabels: {
+							enabled: true
+						},
+						
+				},
+				column: {
 					allowPointSelect: true,
 					cursor: 'pointer',
 					animation: {duration : 300},
 					dataLabels: {
-						enabled: true,
-						format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+						enabled: true,						
 						style: {
 							color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
 						}
 					}
 				}
 			},
-			series: [{
-				name: 'Clans',
-				colorByPoint: true,
-				data: [
-					{name : 'Wolf', y : 10},
-					{name : 'Stag', y : 12},
-					{name : 'Goat', y : 15},
-					{name : 'Raven', y : 18},
-					{name : 'Bear', y : 15},
-					{name : 'Boar', y : 30, sliced: true},
-				]
-			}]
-		});
-	};
-
-
-	/*
-		// clans win
-		$(function () { 
-		
-	});
-
-	// winrate par clan par mois
-	$(function () { 
-		var myChart = Highcharts.chart('clans-winrate-bymonth', {
-			chart : {
-			type : 'column'
-			},
-			title: {
-				text: 'Clan winrate by month'
-			},
-			plotOptions: {
-			line: {
-				dataLabels: {
-					enabled: true
-				},
-				//enableMouseTracking: false
-			}
-		},
 			xAxis: {
-				categories: ['0.2.5750', '0.3.6100', '0.3.6420', '0.3.6590']
+				categories: statX,
 			},
+			series: statData
 			
-			series: [{
-				name: 'Wolf',			
-				data: [49, 43, 45, 46]		
-			}, 
-			{
-				name: 'Stag',			
-				data: [48, 41, 58, 50]		
-			},
-			{
-				name: 'Goat',			
-				data: [52, 50, 44, 42]			
-			},
-			{
-				name: 'Raven',			
-				data: [51, 48, 49, 52]			
-			},
-			{
-				name: 'Bear',			
-				data: [0, 48, 54, 52]			
-			},
-			{
-				name: 'Boar',			
-				data: [0, 0, 0, 50]		
-			}
-			]
 		});
-	});*/
+
+		
+	}
+
 }

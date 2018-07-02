@@ -35,7 +35,6 @@ Client.prototype = {
 			});
 		});
 		$("[data-target='#labelsAdmin']").click(function(_) {
-			
 			text.val("Loading...");
 			_gthis.mongoFind("labels",{ },function(arr) {
 				var _g = 0;
@@ -185,9 +184,19 @@ Main.startServer = function() {
 		if(url == "/") {
 			url = "/index.html";
 		}
-		if(url.split("/").pop().indexOf(".") > 0) {
+		var baseName = url.split("/").pop();
+		if(baseName.indexOf(".") > 0 && url.indexOf("..") < 0) {
 			try {
-				var tmp = js_node_Fs.readFileSync("." + url,{ encoding : "utf8"});
+				var content = js_node_buffer__$Buffer_Helper.bytesOfBuffer(js_node_Fs.readFileSync("." + url));
+				var ext = baseName.split(".").pop().toLowerCase();
+				switch(ext) {
+				case "gif":case "jpeg":case "jpg":case "png":
+					resp.setHeader("Content-Type","image/" + ext);
+					break;
+				default:
+				}
+				var data = content.b;
+				var tmp = new js_node_buffer_Buffer(data.buffer,data.byteOffset,data.byteLength);
 				resp.end(tmp);
 				return;
 			} catch( e ) {
@@ -243,7 +252,7 @@ Main.startServer = function() {
 					switch(_g) {
 					case "/aggregate":
 						var col = db.collection(args1.collection);
-						col.aggregate(args1.pipeline,null,onResult);
+						col.aggregate(args1.pipeline,{ },onResult);
 						break;
 					case "/delete":
 						var col1 = db.collection(args1.collection);
@@ -892,6 +901,17 @@ var js_node_Fs = require("fs");
 var js_node_Http = require("http");
 var js_node_Url = require("url");
 var js_node_buffer_Buffer = require("buffer").Buffer;
+var js_node_buffer__$Buffer_Helper = function() { };
+js_node_buffer__$Buffer_Helper.__name__ = true;
+js_node_buffer__$Buffer_Helper.bytesOfBuffer = function(b) {
+	var o = Object.create(haxe_io_Bytes.prototype);
+	o.length = b.byteLength;
+	o.b = b;
+	b.bufferValue = b;
+	b.hxBytes = o;
+	b.bytes = b;
+	return o;
+};
 var mongo_MongoClient = require("mongodb");
 var sys_io_FileInput = function(fd) {
 	this.fd = fd;

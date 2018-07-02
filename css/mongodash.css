@@ -1,26 +1,108 @@
-#loader, #loader #blackscreen, #loader #loaderimg, #loader #backloaderimg {
-    position: fixed;
-    left: 0px;
-    top: 0px;
-    width: 100%;
-    height: 100%;
+.loader, .loader .blackscreen, .loader .loaderimg, .loader .backloaderimg {
+    position: absolute;
+    left: 10%;
+    top: 10%;
+    width: 80%;
+    height: 80%;
 }
 
-#loader {
+#cachetout {
+    z-index: 9998;
+    position: fixed;
+    background-color :  #000;
+    opacity: 0.5;
+    width: 100%;
+    height: 100%;
+    display : none;
+}
+
+
+.loader {
     z-index: 9999;
     display : none;
 }
 
-#loader #blackscreen{   
+.loader .blackscreen{   
     background-color :  #000;
     opacity: 0.5;
 }
 
-#loader #loaderimg{   
-    background: url('../img/loaderb.gif') 50% 50% no-repeaT;
+.loader .loaderimg{   
+    background: url('../img/loaderb.gif') 50% 37% no-repeaT;    
 }
 
-#loader #backloaderimg{ 
-    background: url('../img/backloader.png') 50% 53% no-repeaT;
+.loader .backloaderimg{ 
+    background: url('../img/backloader.png') 50% 52% no-repeaT;
     
+}
+
+
+body > .loader .loaderimg{   
+    background: url('../img/loaderb.gif') 50% 48% no-repeaT;    
+}
+
+.ng-tech {
+    position : absolute;
+    width : 200px;
+    height : 33px;
+    background: url('../img/back-tech.png');
+    padding-top : 5px;
+    padding-left : 15px;
+    
+    
+}
+
+
+.ng-tech.spec {
+    background: url('../img/back-spectech.png');
+}
+
+.ng-tech span {
+    color : #35A2C6;
+    font-weight : bold;
+    font-size : 10pt;
+
+}
+
+.ng-tech span.tech-percentage {
+    color : #44D3FF;
+    font-weight : bold;
+    font-size : 10pt;
+
+}
+
+.ng-tech span.tech-percentage.low {
+    color : rgb(243, 78, 78);
+    
+
+}
+
+.ng-tech span.tech-percentage.quitelow {
+    color : rgb(243, 191, 78);
+    
+
+}
+.ng-tech span.tech-percentage.high {
+    color : rgb(0, 187, 16);
+    
+
+}
+
+
+
+.row{
+    padding-top : 10px;
+    margin : auto;
+    width : 98%;
+}
+.row .techtree {
+    height : 400px;
+}
+
+#bt-search-techs{
+    margin-left : 20px;
+}
+
+td.error-record {
+    font-size : 11px !important;
 }

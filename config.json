@@ -1,1 +1,1 @@
-{ "host" : "shirogames.com", "port" : 27017, "user" : "cschoell", "password" : "bFtwscMM", "db" : "northgard" }
+{ "host" : "mongo.shirogames.com", "port" : 27017, "user" : "cschoell", "password" : "bFtwscMM", "db" : "northgard" }
